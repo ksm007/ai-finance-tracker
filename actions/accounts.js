@@ -71,3 +71,65 @@ export async function getAccountWithTransactions(accountId) {
     console.log(error.message);
   }
 }
+
+export async function bulkDeleteTransactions(transactionIds) {
+  try {
+    const { userId } = await auth();
+    if (!userId) throw new Error("Unauthorized");
+    const user = await db.user.findUnique({ where: { clerkUserId: userId } });
+
+    if (!user) throw new Error("User not found");
+
+    const transactions = await db.transaction.findMany({
+      where: {
+        id: {
+          in: transactionIds,
+        },
+        userId: user.id,
+      },
+    });
+    console.log(transactions);
+
+    const accountBalanceChanges = transactions.reduce((acc, transaction) => {
+      const change =
+        transaction.type === "EXPENSE"
+          ? transaction.amount.toNumber()
+          : -transaction.amount.toNumber();
+
+      if (!acc[transaction.accountId]) {
+        acc[transaction.accountId] = 0;
+      }
+      acc[transaction.accountId] += change;
+      return acc;
+    }, {});
+    // delete transactions and update account balances
+    await db.$transaction(async (tx) => {
+      await tx.transaction.deleteMany({
+        where: {
+          id: {
+            in: transactionIds,
+          },
+          userId: user.id,
+        },
+      });
+      await Promise.all(
+        Object.entries(accountBalanceChanges).map(
+          ([accountId, balanceChange]) =>
+            tx.account.update({
+              where: { id: accountId },
+              data: {
+                balance: {
+                  increment: balanceChange,
+                },
+              },
+            })
+        )
+      );
+    });
+    revalidatePath("/dashboard");
+    revalidatePath("/account/[id]");
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
