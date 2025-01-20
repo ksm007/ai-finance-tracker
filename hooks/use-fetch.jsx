@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-export const useFetch = (callback) => {
+export function useFetch(callback) {
   const [data, setData] = useState(undefined);
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState(null);
@@ -23,4 +23,4 @@ export const useFetch = (callback) => {
   };
 
   return { data, loading, error, fn, setData };
-};
+}

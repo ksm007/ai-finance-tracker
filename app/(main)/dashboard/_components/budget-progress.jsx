@@ -1,6 +1,10 @@
 "use client";
-import { updateBudget } from "@/actions/budget";
-import { Button } from "@/components/ui/button";
+
+import { useState, useEffect } from "react";
+import { Pencil, Check, X } from "lucide-react";
+import { useFetch } from "@/hooks/use-fetch";
+import { toast } from "sonner";
+
 import {
   Card,
   CardContent,
@@ -8,13 +12,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useFetch } from "@/hooks/use-fetch";
-import { Check, Pencil, X } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { updateBudget } from "@/actions/budget";
 
-const BudgetProgress = ({ initialBudget, currentExpenses }) => {
+export function BudgetProgress({ initialBudget, currentExpenses }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newBudget, setNewBudget] = useState(
     initialBudget?.amount?.toString() || ""
@@ -33,10 +36,12 @@ const BudgetProgress = ({ initialBudget, currentExpenses }) => {
 
   const handleUpdateBudget = async () => {
     const amount = parseFloat(newBudget);
+
     if (isNaN(amount) || amount <= 0) {
       toast.error("Please enter a valid amount");
       return;
     }
+
     await updateBudgetFn(amount);
   };
 
@@ -138,6 +143,4 @@ const BudgetProgress = ({ initialBudget, currentExpenses }) => {
       </CardContent>
     </Card>
   );
-};
-
-export default BudgetProgress;
+}

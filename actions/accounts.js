@@ -88,7 +88,6 @@ export async function bulkDeleteTransactions(transactionIds) {
         userId: user.id,
       },
     });
-    console.log(transactions);
 
     const accountBalanceChanges = transactions.reduce((acc, transaction) => {
       const change =

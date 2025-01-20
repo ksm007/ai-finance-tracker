@@ -1,20 +1,20 @@
 -- CreateEnum
+CREATE TYPE "TransactionType" AS ENUM ('INCOME', 'EXPENSE');
+
+-- CreateEnum
 CREATE TYPE "AccountType" AS ENUM ('CURRENT', 'SAVINGS');
 
 -- CreateEnum
-CREATE TYPE "TransactionType" AS ENUM ('INCOME', 'EXPENSE');
+CREATE TYPE "TransactionStatus" AS ENUM ('PENDING', 'COMPLETED', 'FAILED');
 
 -- CreateEnum
 CREATE TYPE "RecurringInterval" AS ENUM ('DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY');
 
--- CreateEnum
-CREATE TYPE "TransactionStatus" AS ENUM ('COMPLETED', 'PENDING', 'CANCELLED');
-
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
     "clerkUserId" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
     "name" TEXT,
     "imageUrl" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -27,11 +27,11 @@ CREATE TABLE "users" (
 CREATE TABLE "accounts" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "userId" TEXT,
-    "balance" DECIMAL(65,30) NOT NULL DEFAULT 0,
     "type" "AccountType" NOT NULL,
+    "balance" DECIMAL(65,30) NOT NULL DEFAULT 0,
     "isDefault" BOOLEAN NOT NULL DEFAULT false,
-    "crateAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "userId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "accounts_pkey" PRIMARY KEY ("id")
@@ -51,8 +51,8 @@ CREATE TABLE "transactions" (
     "nextRecurringDate" TIMESTAMP(3),
     "lastProcessed" TIMESTAMP(3),
     "status" "TransactionStatus" NOT NULL DEFAULT 'COMPLETED',
-    "userId" TEXT,
-    "accountId" TEXT,
+    "userId" TEXT NOT NULL,
+    "accountId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -63,8 +63,8 @@ CREATE TABLE "transactions" (
 CREATE TABLE "budgets" (
     "id" TEXT NOT NULL,
     "amount" DECIMAL(65,30) NOT NULL,
-    "lastAlertDate" TIMESTAMP(3),
-    "userId" TEXT,
+    "lastAlertSent" TIMESTAMP(3),
+    "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -72,10 +72,10 @@ CREATE TABLE "budgets" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+CREATE UNIQUE INDEX "users_clerkUserId_key" ON "users"("clerkUserId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_clerkUserId_key" ON "users"("clerkUserId");
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
 CREATE INDEX "accounts_userId_idx" ON "accounts"("userId");
@@ -85,6 +85,9 @@ CREATE INDEX "transactions_userId_idx" ON "transactions"("userId");
 
 -- CreateIndex
 CREATE INDEX "transactions_accountId_idx" ON "transactions"("accountId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "budgets_userId_key" ON "budgets"("userId");
 
 -- CreateIndex
 CREATE INDEX "budgets_userId_idx" ON "budgets"("userId");
