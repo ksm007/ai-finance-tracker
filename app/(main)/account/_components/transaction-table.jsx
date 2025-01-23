@@ -165,6 +165,8 @@ const TransactionTable = ({ transactions }) => {
       toast.success("Transactions deleted successfully");
     }
   }, [deletedTransaction, deleteLoading]);
+  
+  
   return (
     <div className="space-y-4 ">
       {deleteLoading && (
