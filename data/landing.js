@@ -92,7 +92,7 @@ export const testimonialsData = [
     role: "Student",
     image: "https://randomuser.me/api/portraits/men/75.jpg",
     quote:
-      "This finance tracker has transformed how I manage my business finances. The AI insights have helped me identify cost-saving opportunities I never knew existed.",
+      "Wealth Wizard has transformed how I manage my business finances. The AI insights have helped me identify cost-saving opportunities I never knew existed.",
   },
   {
     name: "Disha Chiplonker",
@@ -106,6 +106,6 @@ export const testimonialsData = [
     role: "Finance Professional",
     image: "https://randomuser.me/api/portraits/women/74.jpg",
     quote:
-      "I recommend this finance tracker to all my clients. The multi-currency support and detailed analytics make it perfect for international investors.",
+      "I recommend Wealth Wizard to all my clients. The multi-currency support and detailed analytics make it perfect for international investors.",
   },
 ];

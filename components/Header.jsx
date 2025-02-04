@@ -5,22 +5,24 @@ import React from "react";
 import { Button } from "./ui/button";
 import { LayoutDashboard, PenBox } from "lucide-react";
 import { checkUser } from "@/lib/checkUser";
+import ThemeToggle from "./ThemeToggle";
 
 const Header = async () => {
   await checkUser();
   return (
-    <div className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
+    <div className="fixed top-0 w-full backdrop-blur-md z-50 border-b">
       <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/">
           <Image
-            src={"next.svg"}
+            src={"/logo.png"}
             width={200}
             height={60}
             alt="logo"
-            className="h-12 w-auto object-contain"
+            className="size-20 w-auto object-contain transpar"
           ></Image>
         </Link>
-        <div className="flex items-center space-x-4"> 
+        <div className="flex items-center space-x-4">
+        <ThemeToggle />
           <SignedOut>
             <SignInButton>
               <Button variant="outline">Sign In</Button>
@@ -38,7 +40,7 @@ const Header = async () => {
             </Link>
 
             <Link href={"/transaction/create"}>
-              <Button  className="flex items-center gap-2">
+              <Button className="flex items-center gap-2">
                 <PenBox size={18} />
                 <span className="hidden md:inline">Add Transaction </span>
               </Button>

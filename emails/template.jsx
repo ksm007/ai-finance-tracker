@@ -118,8 +118,8 @@ export default function EmailTemplate({
             )}
 
             <Text style={styles.footer}>
-              Thank you for using finance tracker. Keep tracking your finances
-              for better financial health!
+              Thank you for using Wealth Wizard. Keep tracking your finances for
+              better financial health!
             </Text>
           </Container>
         </Body>
