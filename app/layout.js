@@ -25,8 +25,8 @@ export default function RootLayout({ children }) {
           <footer className="py-12">
             <div className="container mx-auto px-4 text-center text-gray-600 border-gray-400">
               <p>
-                Wealth Wizard is a cool finance tracker. It is built with
-                Next.js and Tailwind CSS.
+                Wealth Wizard is the one-stop solution for all your financial
+                management needs.
               </p>
             </div>
           </footer>

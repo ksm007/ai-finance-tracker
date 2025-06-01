@@ -32,7 +32,7 @@ const HeroSection = () => {
           Manage your finance <br />
           with intelligence
         </h1>
-        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        <p className="text-xl mb-8 max-w-2xl mx-auto">
           An AI- powered financial management platform
         </p>
 

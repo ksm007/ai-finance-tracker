@@ -82,7 +82,7 @@ const CreateAccountDrawer = ({ children }) => {
           <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium">
-                Account Name
+                Account Type
               </label>
               <Input
                 id="name"
