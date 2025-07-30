@@ -1,6 +1,5 @@
 import { scanReceipt } from "@/actions/transaction";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useFetch } from "@/hooks/use-fetch";
 import { Camera, Loader2 } from "lucide-react";
 import React, { useEffect, useRef } from "react";
